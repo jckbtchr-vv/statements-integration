@@ -461,7 +461,7 @@ contract BalanceArtworkTest is WithdrawalsFixture {
     function test_withdrawalAutomaticallyIssuesOneAndPersistsAtZero() public {
         take(compose(0));
         uint256 id = artwork.tokenIdOf(ALICE);
-        assertEq(id, uint256(uint160(ALICE)));
+        assertEq(id, 1);
         assertEq(artwork.ownerOf(id), ALICE);
         assertTrue(artwork.locked(id));
         uint256 amount = withdrawals.balanceOf(ALICE);

@@ -15,6 +15,7 @@ contract BalanceArtwork is ERC721 {
     IERC20 public immutable token;
     /// @notice Artwork addresses in first-receipt order; bounded pagination powers the public gallery.
     address[] public wallets;
+    mapping(address => uint256) private artworkIds;
     error WalletBound();
     error OnlyToken();
     error PageTooLarge();
@@ -27,16 +28,17 @@ contract BalanceArtwork is ERC721 {
     }
 
     function tokenIdOf(address wallet) public view returns (uint256) {
-        uint256 id = uint256(uint160(wallet));
-        return _ownerOf(id) == address(0) ? 0 : id;
+        return artworkIds[wallet];
     }
 
     function _issue(address wallet) private returns (uint256 id) {
         if (wallet == address(0) || wallet == address(token)) return 0;
-        id = uint256(uint160(wallet));
-        if (_ownerOf(id) != address(0)) return id;
+        id = artworkIds[wallet];
+        if (id != 0) return id;
         if (token.balanceOf(wallet) == 0) return 0;
         wallets.push(wallet);
+        id = wallets.length;
+        artworkIds[wallet] = id;
         // This artwork can never transfer or burn, so receiver compatibility is irrelevant.
         // _mint deliberately makes no ERC-721 receiver call: swaps and ERC-20 transfers must
         // not acquire a callback or fail because a pool/smart wallet cannot receive NFTs.
@@ -136,8 +138,8 @@ contract BalanceArtwork is ERC721 {
     function tokenURI(uint256 id) public view override returns (string memory) {
         address wallet = _requireOwned(id);
         string memory json = string.concat(
-            '{"name":"Balance: ',
-            artworkBalance(wallet),
+            '{"name":"Balance #',
+            Strings.toString(id),
             '","description":"The balance is the artwork. This artwork is created automatically on first receipt and stays with its wallet. Its number is the current balance, including zero, truncated to two decimal places.",',
             '"image":"data:image/svg+xml;base64,',
             Base64.encode(bytes(svg(id))),

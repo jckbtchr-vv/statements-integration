@@ -1,62 +1,121 @@
-[PASS] testFuzz_transfersAndAllowanceConserveSupply(uint256) (runs: 256, μ: 8862058, ~: 8864207)
+Compiling 68 files with Solc 0.8.28
+Solc 0.8.28 finished in 18.12s
+Compiler run successful with warnings:
+Warning (3149): The result type of the shift operation is equal to the type of the first operand (uint80) ignoring the (larger) type of the second operand (uint256) which might be unexpected. Silence this warning by either converting the first or the second operand to the type of the other.
+  --> src/renderers/BalancePixels.sol:39:42:
+   |
+39 |                         if ((masks[i] & (uint80(1) << (row * WIDTH + col))) == 0) continue;
+   |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (3149): The result type of the shift operation is equal to the type of the first operand (uint80) ignoring the (larger) type of the second operand (uint256) which might be unexpected. Silence this warning by either converting the first or the second operand to the type of the other.
+  --> src/renderers/StatementBalanceRenderer.sol:84:94:
+   |
+84 |             for(uint256 bit;bit<BalancePixels.WIDTH*BalancePixels.ROWS;bit++) if(masks[i] & (uint80(1)<<bit)!=0) count++;
+   |                                                                                              ^^^^^^^^^^^^^^
+
+Warning (3149): The result type of the shift operation is equal to the type of the first operand (uint80) ignoring the (larger) type of the second operand (uint256) which might be unexpected. Silence this warning by either converting the first or the second operand to the type of the other.
+   --> src/renderers/StatementBalanceRenderer.sol:124:32:
+    |
+124 |                 if(masks[i] & (uint80(1)<<(row*BalancePixels.WIDTH+col))==0) continue;
+    |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to view
+  --> test/Lineage.t.sol:10:5:
+   |
+10 |     function testMainnetSnapshotMatchesReferenceCounts() public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 5 tests for test/StatementBalanceRenderer.t.sol:StatementBalanceRendererTest
+[PASS] testBlackPaperCompensation() (gas: 3687871)
+[PASS] testPaletteAndReadOnlySource() (gas: 5836934)
+[PASS] testPreviewSVG() (gas: 1708664)
+[PASS] testScoreFormatting() (gas: 48581)
+[PASS] testZeroAndMaximum() (gas: 3116097)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 9.76ms (24.33ms CPU time)
+
+Ran 9 tests for test/ArtworkMarketplace.t.sol:ArtworkMarketplaceTest
+[PASS] testCollectionMetadataWorksBeforeFirstReceipt() (gas: 1891893)
+[PASS] testDustDisplayBoundariesAndZero() (gas: 11734137)
+[PASS] testExportFullScaleRendererGallery() (gas: 38805021)
+[PASS] testExportMarketplaceStates() (gas: 35780319)
+[PASS] testMetadataIsValidExactAndMarketplaceTyped() (gas: 23253618)
+[PASS] testNoSpuriousMintOrRefreshOnZeroOrSelfTransfer() (gas: 9634652)
+[PASS] testReceiptIssuesSequentialIdEvenForLargeWalletAddress() (gas: 14574079)
+[PASS] testSupportedInterfacesAndAllTradingPathsStayLocked() (gas: 9717523)
+[PASS] testUpdatesBothExistingArtworksIncludingZeroAndReturn() (gas: 12983046)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 501.09ms (195.88ms CPU time)
+
+Ran 4 tests for test/Lineage.t.sol:InkMathTest
+[PASS] testCountMasksAndIgnoresPadding() (gas: 333811)
+[PASS] testFuzzCountAgainstNaive(uint256,uint256,uint256) (runs: 256, μ: 621615, ~: 621615)
+[PASS] testFuzzSplitConserves(uint64,uint64,uint64,uint64,uint256) (runs: 256, μ: 7186, ~: 7531)
+[PASS] testMainnetSnapshotMatchesReferenceCounts() (gas: 2208241)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 508.25ms (91.94ms CPU time)
+
+Ran 21 tests for test/Withdrawals.t.sol:WithdrawalsTest
+[PASS] testFuzz_transfersAndAllowanceConserveSupply(uint256) (runs: 256, μ: 8905283, ~: 8908338)
 [PASS] test_approvedOperatorCannotTakeOwnersScore() (gas: 8355165)
-[PASS] test_atomicWithdrawalExactScoreAndMetadata() (gas: 8774073)
-[PASS] test_cannotWithdrawTwiceOrQuoteLocked() (gas: 8668402)
+[PASS] test_atomicWithdrawalExactScoreAndMetadata() (gas: 8796137)
+[PASS] test_cannotWithdrawTwiceOrQuoteLocked() (gas: 8690466)
 [PASS] test_capAndZeroScoreEnforced() (gas: 8282493)
-[PASS] test_eightPageBlackStatementTurnsWhiteAllScoreIssued() (gas: 73039998)
-[PASS] test_formerOwnerAndCollectionOwnerCannotReleaseOrModify() (gas: 17471375)
+[PASS] test_eightPageBlackStatementTurnsWhiteAllScoreIssued() (gas: 73062062)
+[PASS] test_formerOwnerAndCollectionOwnerCannotReleaseOrModify() (gas: 17493439)
 [PASS] test_fullSupplyExistsOnlyInReserveAtDeployment() (gas: 49437)
 [PASS] test_invalidSourcesRejected() (gas: 4674)
 [PASS] test_missingApprovalRollsBackReceiptAndSupply() (gas: 8476358)
 [PASS] test_rawTransferIsUnrecoverableAndDoesNotIssue() (gas: 8326578)
-[PASS] test_registrySealingAfterRegistrationDoesNotDisableWithdrawals() (gas: 8680761)
+[PASS] test_registrySealingAfterRegistrationDoesNotDisableWithdrawals() (gas: 8702825)
 [PASS] test_reserveHasNoAllowanceOrRecoveryPath() (gas: 260084)
-[PASS] test_returnedTokensStayLockedWithoutRestoringAllocation() (gas: 17128676)
-[PASS] test_singleTokenApprovalCannotAffectOtherStatements() (gas: 17083090)
-[PASS] test_staleQuoteAfterOverprintRequiresNewReview() (gas: 18417142)
+[PASS] test_returnedTokensStayLockedWithoutRestoringAllocation() (gas: 17150669)
+[PASS] test_singleTokenApprovalCannotAffectOtherStatements() (gas: 17105154)
+[PASS] test_staleQuoteAfterOverprintRequiresNewReview() (gas: 18439206)
 [PASS] test_unknownAndBurnedStatementsDoNotQuote() (gas: 18010333)
 [PASS] test_unregisteredOrWrongRendererFailsClosed() (gas: 8599198)
 [PASS] test_unsolicitedSafeTransfersAndSpoofedCallbacksRejected() (gas: 8311883)
-[PASS] test_whiteFormatAloneDoesNotIssueOrLock() (gas: 8715628)
-[PASS] test_withdrawalTransfersReserveWithoutMinting() (gas: 8660762)
-Suite result: ok. 21 passed; 0 failed; 0 skipped; finished in 2.48s (698.72ms CPU time)
-[PASS] test_allNFTTransferAndApprovalPathsRevert() (gas: 8741591)
-[PASS] test_artworkTruncatesToTwoDecimalsWithoutChangingUnits() (gas: 234312)
-[PASS] test_contractRecipientCannotRejectOrReenterTokenTransferThroughNFT() (gas: 9135663)
-[PASS] test_exactFractionalFormatting() (gas: 8748222)
-[PASS] test_firstBaseUnitAutomaticallyCreatesArtworkWithoutStatement() (gas: 8944301)
-[PASS] test_firstReceiptGasAndLaterReceiptGas() (gas: 8804427)
-[PASS] test_galleryEnumeratesRecipientsAndRetainsZero() (gas: 8890474)
+[PASS] test_whiteFormatAloneDoesNotIssueOrLock() (gas: 8737692)
+[PASS] test_withdrawalTransfersReserveWithoutMinting() (gas: 8682826)
+Suite result: ok. 21 passed; 0 failed; 0 skipped; finished in 687.09ms (701.25ms CPU time)
+
+Ran 12 tests for test/Withdrawals.t.sol:BalanceArtworkTest
+[PASS] test_allNFTTransferAndApprovalPathsRevert() (gas: 8763496)
+[PASS] test_artworkTruncatesToTwoDecimalsWithoutChangingUnits() (gas: 234642)
+[PASS] test_contractRecipientCannotRejectOrReenterTokenTransferThroughNFT() (gas: 9201828)
+[PASS] test_exactFractionalFormatting() (gas: 8770496)
+[PASS] test_firstBaseUnitAutomaticallyCreatesArtworkWithoutStatement() (gas: 8988162)
+[PASS] test_firstReceiptGasAndLaterReceiptGas() (gas: 8848456)
+[PASS] test_galleryEnumeratesRecipientsAndRetainsZero() (gas: 8934503)
 [PASS] test_galleryPaginationIsBoundedAndHandlesEmptyRanges() (gas: 28540)
-[PASS] test_interfacesAndRestrictedMetadataEvents() (gas: 8852370)
-[PASS] test_pixelArtworkMatchesPreviewAtZeroFractionsAndMaximum() (gas: 16925770)
-[PASS] test_withdrawalAutomaticallyIssuesOneAndPersistsAtZero() (gas: 9112010)
-[PASS] test_zeroTransfersAndReserveNeverCreateArtwork() (gas: 8761484)
-Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 2.48s (96.46ms CPU time)
-[PASS] testCountMasksAndIgnoresPadding() (gas: 333811)
-[PASS] testFuzzCountAgainstNaive(uint256,uint256,uint256) (runs: 256, μ: 621615, ~: 621615)
-[PASS] testFuzzSplitConserves(uint64,uint64,uint64,uint64,uint256) (runs: 256, μ: 7167, ~: 7531)
-[PASS] testMainnetSnapshotMatchesReferenceCounts() (gas: 2208241)
-Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 2.48s (698.99ms CPU time)
-[PASS] testCumulativeTurnoverRemainsFullWidth() (gas: 10433361)
-[PASS] testFuzzPackedHistoryMatchesReference(uint256) (runs: 256, μ: 67890242, ~: 68005110)
-[PASS] testPackedCounterOverflowRevertsWithoutAffectingNeighborsOrFunds() (gas: 18244243)
-[PASS] testReceivedTurnoverOverflowStillRevertsAtomically() (gas: 10269065)
-[PASS] testSupplyBoundFitsChannelsAndHistoryAmounts() (gas: 10398270)
-[PASS] testZeroTimestampAndReturnsDoNotResetFirstReceipt() (gas: 20383056)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.48s (2.51s CPU time)
-[PASS] testActualInkReleaseAndPermanentCustody() (gas: 14333914)
-[PASS] testArtworkStaysWhenBalanceMovesAndReturns() (gas: 12945118)
-[PASS] testFuzzManyTransfersConserveAllInk(uint256) (runs: 256, μ: 13304308, ~: 13304048)
-[PASS] testIssuedStatementNeverRecoverableAfterBalanceLeavesHolder() (gas: 10136851)
+[PASS] test_interfacesAndRestrictedMetadataEvents() (gas: 8896438)
+[PASS] test_pixelArtworkMatchesPreviewAtZeroFractionsAndMaximum() (gas: 16950563)
+[PASS] test_withdrawalAutomaticallyIssuesOneAndPersistsAtZero() (gas: 9154122)
+[PASS] test_zeroTransfersAndReserveNeverCreateArtwork() (gas: 8783345)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 687.14ms (84.34ms CPU time)
+
+Ran 13 tests for test/Lineage.t.sol:LineageTest
+[PASS] testActualInkReleaseAndPermanentCustody() (gas: 14353290)
+[PASS] testArtworkStaysWhenBalanceMovesAndReturns() (gas: 12615443)
+[PASS] testFuzzManyTransfersConserveAllInk(uint256) (runs: 256, μ: 13345620, ~: 13345819)
+[PASS] testIssuedStatementNeverRecoverableAfterBalanceLeavesHolder() (gas: 10180911)
 [PASS] testRawTransferDoesNotReleaseBalanceOrCreateReceipt() (gas: 8379990)
-[PASS] testRecoveryOnlyFixedWalletAndNoIssuance() (gas: 9927545)
-[PASS] testReturnedReserveInkDoesNotContaminateNewRelease() (gas: 20076271)
-[PASS] testSharedCustodyMixesSourcesBeforePayout() (gas: 19782615)
+[PASS] testRecoveryOnlyFixedWalletAndNoIssuance() (gas: 9949609)
+[PASS] testReturnedReserveInkDoesNotContaminateNewRelease() (gas: 20098159)
+[PASS] testSharedCustodyMixesSourcesBeforePayout() (gas: 19848480)
 [PASS] testSpoofedReceiverCallbacksRejected() (gas: 34241)
 [PASS] testStaleQuoteRollsBackCustodyAndRelease() (gas: 8381929)
-[PASS] testTransferFromAndZeroHistory() (gas: 10201492)
-[PASS] testTwoSourcesMixThenSplit() (gas: 19774596)
-[PASS] testUnsolicitedSafeTransferRejectedThenWithdrawalSucceeds() (gas: 9694395)
-Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 2.48s (799.20ms CPU time)
-Ran 5 test suites in 2.49s (12.40s CPU time): 56 tests passed, 0 failed, 0 skipped (56 total tests)
+[PASS] testTransferFromAndZeroHistory() (gas: 10245521)
+[PASS] testTwoSourcesMixThenSplit() (gas: 19840587)
+[PASS] testUnsolicitedSafeTransferRejectedThenWithdrawalSucceeds() (gas: 9716459)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 687.40ms (798.65ms CPU time)
+
+Ran 6 tests for test/LineageTransferAccounting.t.sol:LineageTransferAccountingTest
+[PASS] testCumulativeTurnoverRemainsFullWidth() (gas: 10477492)
+[PASS] testFuzzPackedHistoryMatchesReference(uint256) (runs: 256, μ: 68001119, ~: 68170530)
+[PASS] testPackedCounterOverflowRevertsWithoutAffectingNeighborsOrFunds() (gas: 18266241)
+[PASS] testReceivedTurnoverOverflowStillRevertsAtomically() (gas: 10291063)
+[PASS] testSupplyBoundFitsChannelsAndHistoryAmounts() (gas: 10464468)
+[PASS] testZeroTimestampAndReturnsDoNotResetFirstReceipt() (gas: 20426909)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.42s (2.45s CPU time)
+
+Ran 7 test suites in 2.42s (5.50s CPU time): 70 tests passed, 0 failed, 0 skipped (70 total tests)
+2026-10-18T21:24:00.410264Z  WARN evm::traces: failed to flush signature cache err=failed to create file "/Users/j/.foundry/cache/signatures": Operation not permitted (os error 1)

@@ -52,6 +52,7 @@ library BalancePixels {
 
     /// Row-major bits: row * 5 + column. Keep in parity with pixel-balance.mjs.
     function _glyph(bytes1 c) internal pure returns (uint80) {
+        if (c == "<") return 0x208208888;
         if (c == "0") return 0x3a33ae62e;
         if (c == "1") return 0x3884210c4;
         if (c == "2") return 0x7c226422e;

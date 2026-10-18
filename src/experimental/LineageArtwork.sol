@@ -20,6 +20,7 @@ contract LineageArtwork is ERC721 {
     IERC20 public immutable token;
     /// @notice Artwork addresses in first-receipt order; bounded pagination powers the public gallery.
     address[] public wallets;
+    mapping(address => uint256) private artworkIds;
     error WalletBound();
     error OnlyToken();
     error PageTooLarge();
@@ -32,16 +33,17 @@ contract LineageArtwork is ERC721 {
     }
 
     function tokenIdOf(address wallet) public view returns (uint256) {
-        uint256 id = uint256(uint160(wallet));
-        return _ownerOf(id) == address(0) ? 0 : id;
+        return artworkIds[wallet];
     }
 
     function _issue(address wallet) private returns (uint256 id) {
         if (wallet == address(0) || wallet == address(token)) return 0;
-        id = uint256(uint160(wallet));
-        if (_ownerOf(id) != address(0)) return id;
+        id = artworkIds[wallet];
+        if (id != 0) return id;
         if (token.balanceOf(wallet) == 0) return 0;
         wallets.push(wallet);
+        id = wallets.length;
+        artworkIds[wallet] = id;
         // This artwork can never transfer or burn, so receiver compatibility is irrelevant.
         // _mint deliberately makes no ERC-721 receiver call: swaps and ERC-20 transfers must
         // not acquire a callback or fail because a pool/smart wallet cannot receive NFTs.
@@ -176,9 +178,9 @@ contract LineageArtwork is ERC721 {
     function tokenURI(uint256 id) public view override returns (string memory) {
         address wallet = _requireOwned(id);
         string memory json = string.concat(
-            '{"name":"Balance: ',
-            artworkBalance(wallet),
-            '","description":"The balance is the artwork. Created automatically on first receipt, this NFT stays with its wallet and cannot be transferred or sold. Its number is the current Balance token balance, including zero, truncated to two decimal places; the Balance trait retains the exact amount. Colors show the current CMYK mixture. Ink proportions represent ancestry, not exact Statement identity or collector intent. Marketplace images may take time to refresh after a transaction.",',
+            '{"name":"Balance #',
+            Strings.toString(id),
+            '","description":"The balance is the artwork. Created automatically on first receipt, this NFT stays with its wallet and cannot be transferred or sold. Its number is the current Balance token balance, including zero; positive balances below 0.01 display as less than 0.01, and larger balances are truncated to two decimal places; the Balance trait retains the exact amount. Colors show the current CMYK mixture. Ink proportions represent ancestry, not exact Statement identity or collector intent. Marketplace images may take time to refresh after a transaction.",',
             '"external_url":"https://jack.art/credits/balances/","background_color":"ffffff",',
             '"image":"data:image/svg+xml;base64,',
             Base64.encode(bytes(svg(id))),

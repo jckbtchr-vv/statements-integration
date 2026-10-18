@@ -1,4 +1,4 @@
-# Statements / BALANCE integration source — v0.1.0-preview
+# Statements / BALANCE integration source — v0.2.0-preview
 
 A focused source package for reviewing Statement composition and permanent Statement-to-BALANCE conversion. This is a source snapshot, not a verified deployment announcement or a migration commitment.
 
@@ -39,8 +39,17 @@ MIT for project code; see LICENSE and the vendored dependency licenses. No endor
 
 ## Preview compatibility policy
 
-This is v0.1.0-preview, not a production integration commitment. The quote → approve → withdraw interface has been rehearsed, but interface, launch gates and configuration remain provisional until a verified release. Integrators should keep addresses and timing configurable and must not assume early transfer privileges, additional auction deposits or coordinated liquidity migration.
+This is v0.2.0-preview, not a production integration commitment. The quote → approve → withdraw interface has been rehearsed, but interface, launch gates and configuration remain provisional until a verified release. Integrators should keep addresses and timing configurable and must not assume early transfer privileges, additional auction deposits or coordinated liquidity migration.
 
 A production release will identify the final chain, addresses, constructor settings and verified runtime code. Integrators must check that release before accepting deposits dependent on the integration. Incompatible changes will receive a new version with migration notes; preview versions may break compatibility. Existing published tags will not be silently replaced. Frontend or artwork changes do not necessarily change the conversion ABI.
 
 Publishing this source does not upgrade any deployed Statement contract. Deployed-source equivalence must be established separately. This package is not an independent security audit.
+
+## Artwork changes in v0.2.0-preview
+
+- Artwork IDs now start at 1 and increment in first-receipt execution order. They are no longer derived from wallet addresses. Always query `tokenIdOf(wallet)`; do not compute the ID from the address. IDs persist at zero balance and on later receipt.
+- Metadata names are permanent `Balance #<tokenId>` identifiers, rather than the current balance.
+- The current eighteen-decimal artwork renders exact zero as `0`, positive amounts below 0.01 as `<0.01`, and other amounts truncated to two decimals. Exact amounts remain in the Balance metadata trait. Type/pixel size stays fixed relative to the canvas.
+- Includes metadata, sequential-ID, dust-boundary and full-scale rendering regression tests.
+
+These are source changes for new deployments. They do not upgrade existing contracts. The auction conversion/transfer gates and quote/approve/withdraw interface are unchanged from v0.1.0-preview. Artwork bytecode, token-ID semantics and deployment hashes have changed; regenerate deployment predictions and verify final deployed addresses. Full raw metadata traits remain available; the simplified audit page presentation is not a removal of those traits.

@@ -46,6 +46,10 @@ contract StatementBalanceRenderer is IStatementRenderer {
         return _display(score, 10000);
     }
     function _display(uint256 amount, uint256 unit) private pure returns (string memory) {
+        if (unit == 1e18) {
+            if (amount == 0) return "0";
+            if (amount < 1e16) return "<0.01";
+        }
         bytes memory digits = bytes(Strings.toString(amount / unit));
         bytes memory whole = new bytes(digits.length + (digits.length - 1) / 3);
         uint256 at = whole.length;
@@ -91,7 +95,8 @@ contract StatementBalanceRenderer is IStatementRenderer {
         // Preserve the page, cap height, underline position and Statement padding.
         Draw.str(out,'<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="3750" viewBox="0 0 16000 20000"><title>');
         if(paper!=Paper.Statement)Draw.str(out,'BALANCE: ');
-        Draw.str(out,label);
+        if (label[0] == "<") Draw.str(out,"&lt;0.01");
+        else Draw.str(out,label);
         Draw.str(out,'</title><rect width="16000" height="20000" fill="');
         Draw.str(out,paper==Paper.Compensated?bytes("#000000"):bytes("#ffffff"));
         Draw.str(out,'"/><g shape-rendering="crispEdges" transform="translate(1280 1600)">');
